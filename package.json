@@ -7,8 +7,14 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview",
-    "start": "vite"
+    "heroku-postbuild": "npm run build",
+    "preview": "vite preview --port $PORT",
+    "start": "npm run preview"
+
+  },
+  "engines": {
+    "node": ">=20.0.0",
+    "npm": ">=10.0.0"
   },
   "dependencies": {
     "@headlessui/react": "^2.2.2",
