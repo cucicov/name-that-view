@@ -1,3 +1,3 @@
-# React + TypeScript + Vite
+# Name That!
 
-npm run dev# name-that-view
+npm run dev
