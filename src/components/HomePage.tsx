@@ -9,7 +9,9 @@ import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import {GameSettings} from "../utils/types.ts";
 import Help from "./Help.tsx";
+// @ts-ignore
 import { Splide, SplideSlide } from '@splidejs/react-splide';
+// @ts-ignore
 import '@splidejs/react-splide/css';
 import { useRef } from 'react';
 
