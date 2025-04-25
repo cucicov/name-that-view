@@ -78,6 +78,13 @@ function HomePage() {
             console.log("Settings: ", response.data);
             return response.data;
         },
+        placeholderData: {
+            maxRounds:1,
+            minRounds:1,
+            maxQuestionsPerRound:1,
+            minQuestionsPerRound:1,
+            startingRounds:1,
+            startingQuestionsPerRound:1}
     });
 
     const toggleSettings = () => {
@@ -86,7 +93,11 @@ function HomePage() {
 
     if (isLoading) console.log("Loading settings for Edition:", editionId, "...");
     if (error) console.log("Error loading settings: ", error);
-    if (!settings) return <div>No settings found for Edition: {editionId}</div>;
+    if (!settings) return (
+        <div className="flex justify-center items-center h-full">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
+        </div>
+    );
 
     return (
         <>
