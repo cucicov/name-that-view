@@ -133,9 +133,17 @@ function HomePage() {
                 <div className="flex h-screen">
                     <div className="flex grow items-center justify-center">
                         <div className="replaceable-wrapper border-1 border-gray-200 flex flex-col
-                            w-full">
+                            w-[150px]
+                            small-phone:w-[250px]
+                            phone:w-[350px]
+                            ipad:w-[500px]
+                            sm:w-[550px]
+                            md:w-[600px]
+                            lg:w-[500px]
+                            xl:w-[640px]
+                            2xl:w-[800px]">
                             {/*SLIDER*/}
-                            <div className="flex justify-center items-center">
+                            <div className="flex justify-center items-center w-[90%]">
                                 <button
                                     onClick={goToPrev}
                                     className="w-4 h-auto
@@ -162,7 +170,7 @@ function HomePage() {
                                 <Splide
                                     ref={splideRef}
                                     options={splideOptions}
-                                    className="font-montserrat font-black
+                                    className="font-montserrat font-black leading-none
                                         text-[12px] py-2
                                         phone:text-[18px] phone:py-4
                                         ipad:text-[28px] ipad:py-6
@@ -174,77 +182,77 @@ function HomePage() {
                                     aria-label="Vertical Slider"
                                 >
                                     <SplideSlide>
-                                        <div className="h-full flex items-center justify-center text-white">
+                                        <div className="h-full flex items-center justify-center text-white w-[90%]">
                                             <button onClick={() => setEditionId(1)}>1980s Edition</button>
                                         </div>
                                     </SplideSlide>
                                     <SplideSlide>
-                                        <div className="h-full flex items-center justify-center text-white">
+                                        <div className="h-full flex items-center justify-center text-white w-[90%]">
                                             <button onClick={() => setEditionId(2)}>1990s Edition</button>
                                         </div>
                                     </SplideSlide>
                                     <SplideSlide>
-                                        <div className="h-full flex items-center justify-center text-white">
+                                        <div className="h-full flex items-center justify-center text-white w-[90%]">
                                             <button onClick={() => setEditionId(3)}>Chistmas Edition</button>
                                         </div>
                                     </SplideSlide>
                                     <SplideSlide>
-                                        <div className="h-full flex items-center justify-center text-white">
+                                        <div className="h-full flex items-center justify-center text-white w-[90%]">
                                             <button onClick={() => setEditionId(3)}>Halloween Edition</button>
                                         </div>
                                     </SplideSlide>
                                     <SplideSlide>
-                                        <div className="h-full flex items-center justify-center text-white">
+                                        <div className="h-full flex items-center justify-center text-white w-[90%]">
                                             <button onClick={() => setEditionId(3)}>Tom Cruise Edition</button>
                                         </div>
                                     </SplideSlide>
                                     <SplideSlide>
-                                        <div className="h-full flex items-center justify-center text-white">
+                                        <div className="h-full flex items-center justify-center text-white w-[90%]">
                                             <button onClick={() => setEditionId(3)}>TV Show Edition</button>
                                         </div>
                                     </SplideSlide>
                                     <SplideSlide>
-                                        <div className="h-full flex items-center justify-center text-white">
+                                        <div className="h-full flex items-center justify-center text-white w-[90%]">
                                             <button onClick={() => setEditionId(3)}>Some Longer Title Edition</button>
                                         </div>
                                     </SplideSlide>
                                     <SplideSlide>
-                                        <div className="h-full flex items-center justify-center text-white">
+                                        <div className="h-full flex items-center justify-center text-white w-[90%]">
                                             <button onClick={() => setEditionId(3)}>Unknown Edition</button>
                                         </div>
                                     </SplideSlide>
                                     <SplideSlide>
-                                        <div className="h-full flex items-center justify-center text-white">
+                                        <div className="h-full flex items-center justify-center text-white w-[90%]">
                                             <button onClick={() => setEditionId(3)}>Special Edition</button>
                                         </div>
                                     </SplideSlide>
                                     <SplideSlide>
-                                        <div className="h-full flex items-center justify-center text-white">
+                                        <div className="h-full flex items-center justify-center text-white w-[90%]">
                                             <button onClick={() => setEditionId(3)}>Batman Edition *SPECIAL* featuring Donald Trump</button>
                                         </div>
                                     </SplideSlide>
                                     <SplideSlide>
-                                        <div className="h-full flex items-center justify-center text-white">
+                                        <div className="h-full flex items-center justify-center text-white w-[90%]">
                                             <button onClick={() => setEditionId(3)}>-1 Edition</button>
                                         </div>
                                     </SplideSlide>
                                     <SplideSlide>
-                                        <div className="h-full flex items-center justify-center text-white">
+                                        <div className="h-full flex items-center justify-center text-white w-[90%]">
                                             <button onClick={() => setEditionId(3)}>NullPointer Edition</button>
                                         </div>
                                     </SplideSlide>
                                     <SplideSlide>
-                                        <div className="h-full flex items-center justify-center text-white">
+                                        <div className="h-full flex items-center justify-center text-white w-[90%]">
                                             <button onClick={() => setEditionId(3)}>Slide 13</button>
                                         </div>
                                     </SplideSlide>
                                     <SplideSlide>
-                                        <div className="h-full flex items-center justify-center text-white">
+                                        <div className="h-full flex items-center justify-center text-white w-[90%]">
                                             <button onClick={() => setEditionId(3)}>Slide 14</button>
                                         </div>
                                     </SplideSlide>
                                     <SplideSlide>
-                                        <div className="h-full flex items-center justify-center text-white">
+                                        <div className="h-full flex items-center justify-center text-white w-[90%]">
                                             <button onClick={() => setEditionId(3)}>Slide 15</button>
                                         </div>
                                     </SplideSlide>
@@ -252,7 +260,7 @@ function HomePage() {
                             </div>
                             {/* Custom Navigation Buttons */}
                             {/*<div className="absolute left-4 top-1/2 -translate-y-1/2 flex flex-col gap-4">*/}
-                            <div className="flex justify-center items-center">
+                            <div className="flex justify-center items-center w-[90%]">
                                 <button
                                     onClick={goToNext}
                                     className="w-4 h-auto
@@ -284,10 +292,10 @@ function HomePage() {
                     </div>
                     <div className="grow flex items-center justify-center
                             phone:grow
-                            ipad:grow-[0.4]
-                            sm:grow-[0.2]
+                            ipad:grow
+                            sm:grow
                             md:grow
-                            lg:grow
+                            lg:grow-[1.2]
                             xl:grow
                             2xl:grow">
                         <div className="
