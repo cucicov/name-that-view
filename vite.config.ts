@@ -1,6 +1,9 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
+// https://vite.dev/config/
+
+
 export default defineConfig({
   plugins: [react()],
   define: {
@@ -10,12 +13,9 @@ export default defineConfig({
     postcss: './postcss.config.cjs',
   },
   server: {
-    port: process.env.PORT ? parseInt(process.env.PORT) : 3000,
-    host: '0.0.0.0',
+    host: '192.168.1.221',  // Ensure it's accessible over WiFi
+    strictPort: true,
+    port: 5173,
   },
-  preview: {
-    port: process.env.PORT ? parseInt(process.env.PORT) : 3000,
-    host: '0.0.0.0',
-    allowedHosts: ['name-that-view-d8397d25fcef.herokuapp.com', '.herokuapp.com']
-  }
+
 })

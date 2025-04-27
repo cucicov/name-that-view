@@ -69,7 +69,7 @@ function Settings({ isOpen, onClose, settings }: SettingsProps) {
     return (
         <>
             {/*backdrop*/}
-            {isOpen && <div className="fixed inset-0 bg-black/30" aria-hidden="true" />}
+            {isOpen && <div className="fixed inset-0 bg-black/80" aria-hidden="true" />}
 
             <div ref={settingsRef} className={`fixed top-0 right-0 z-50 shadow-xl bg-[#024D80]
                 transform transition-transform duration-300 ease-in-out

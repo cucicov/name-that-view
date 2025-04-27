@@ -11,6 +11,8 @@ module.exports = {
         limeGreen: '#66ED18',
         forestGreen: '#0E890E',
         tealGreen: '#0E8989',
+        lightBlue: '#A2D5EC',
+        darkerBlue: '#6A99AE',
       },
       fontFamily: {
         montserrat: ['Montserrat', 'sans-serif'],
