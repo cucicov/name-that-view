@@ -53,28 +53,28 @@ function HomePage() {
         pagination: true,
         perPage: perPageCount,
         gap: '2px',
-        height: '126px',
+        height: '560px',
         breakpoints: {
             852: { // phone
                 height: '126px',
             },
             1194: { // ipad
-                height: '282px',
+                height: '126px',
             },
             1280: { // sm
-                height: '336px',
-            },
-            1366: { // md
                 height: '282px',
             },
-            1440: { // lg
+            1366: { // md
                 height: '336px',
             },
+            1440: { // lg
+                height: '282px',
+            },
             1920: { // xl
-                height: '426px',
+                height: '336px',
             },
             2560: { // 2xl
-                height: '560px',
+                height: '426px',
             },
         },
 
