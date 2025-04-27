@@ -23,7 +23,7 @@ function HomePage() {
 
     useEffect(() => {
         const updatePerPage = () => {
-            if (window.innerWidth <= 852) {  // ipad
+            if (window.innerWidth <= 1194) {  // ipad
                 setPerPageCount(4);
             } else {                                 // phone and smaller
                 setPerPageCount(6);
@@ -372,13 +372,13 @@ function HomePage() {
                             lg:w-[50px] lg:h-[50px] lg:rounded-[9px]
                             xl:w-[64px] xl:h-[64px] xl:rounded-[12px]
                             2xl:w-[84px] 2xl:h-[84px] 2xl:rounded-[16px]
-                            w-[24px] h-[24px] max-h-[75vh] aspect-square">
+                            w-[36px] h-[36px] max-h-[75vh] aspect-square">
                             <button className="p-0" onClick={() => setIsHelpOpen(true)}>
                                 <img
                                     src={helpimg}
                                     alt="Image with aspect"
                                     className="h-full object-cover rounded
-                                    w-[10px]
+                                    w-[14px]
                                     phone:w-[14px]
                                     ipad:w-[19px]
                                     sm:w-[19px]
@@ -441,7 +441,7 @@ function HomePage() {
                             lg:w-[50px] lg:h-[50px] lg:rounded-[9px]
                             xl:w-[64px] xl:h-[64px] xl:rounded-[12px]
                             2xl:w-[84px] 2xl:h-[84px] 2xl:rounded-[16px]
-                            w-[24px] h-[24px] max-h-[75vh] aspect-square">
+                            w-[36px] h-[36px] max-h-[75vh] aspect-square">
                             <button className="p-0" onClick={toggleSettings}>
                                 <img
                                     src={settingsimg}
