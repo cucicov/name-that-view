@@ -1,7 +1,7 @@
 import namethatimg from "../img/namethat.png";
 import helpimg from "../img/help.png";
 import settingsimg from "../img/settings.png";
-import arrowUp from "../img/arrow-up.png";
+import arrowDownClick from "../img/arrow-down-click.png";
 import arrowDown from "../img/arrow-down.png";
 import Settings from "./Settings.tsx";
 import {useEffect, useState} from "react";
@@ -21,9 +21,10 @@ function HomePage() {
     const [isHelpOpen, setIsHelpOpen] = useState(false);
     const [perPageCount, setPerPageCount] = useState(6);
 
+
     useEffect(() => {
         const updatePerPage = () => {
-            if (window.innerWidth <= 1194) {  // ipad
+            if (window.innerHeight <= 400) {  // ipad
                 setPerPageCount(4);
             } else {                                 // phone and smaller
                 setPerPageCount(6);
@@ -41,7 +42,7 @@ function HomePage() {
     }, []);
 
 
-    const [editionId, setEditionId] = useState(1); //TODO: set edition ID dynamically based on selection in the left list.
+    const [editionId, setEditionId] = useState(0); //TODO: set edition ID dynamically based on selection in the left list.
 
     // SLIDER
     const splideRef = useRef<any>(null);
@@ -53,28 +54,28 @@ function HomePage() {
         pagination: true,
         perPage: perPageCount,
         gap: '2px',
-        height: '560px',
+        height: '30vh',
         breakpoints: {
-            852: { // phone
-                height: '126px',
-            },
-            1194: { // ipad
-                height: '126px',
-            },
-            1280: { // sm
-                height: '282px',
-            },
-            1366: { // md
-                height: '336px',
-            },
-            1440: { // lg
-                height: '282px',
+            2560: { // 2xl
+                height: '34vh',
             },
             1920: { // xl
-                height: '336px',
+                height: '34vh',
             },
-            2560: { // 2xl
-                height: '426px',
+            1440: { // lg
+                height: '34vh',
+            },
+            1366: { // md
+                height: '34vh',
+            },
+            1280: { // sm
+                height: '34vh',
+            },
+            1194: { // ipad
+                height: '34vh',
+            },
+            852: { // phone
+                height: '30vh',
             },
         },
 
@@ -86,6 +87,8 @@ function HomePage() {
         splideRef.current?.go('>');
     };
 
+    const [isDownClicked, setIsDownClicked] = useState(false);
+    const [isUpClicked, setIsUpClicked] = useState(false);
 
 
     const { data: settings, isLoading, error } = useQuery({
@@ -126,20 +129,14 @@ function HomePage() {
                 {/* HEADER */}
                 <div className="
                     flex justify-center overflow-visible
-                    mt-[42px]
-                    phone:mt-[42px]
-                    ipad:mt-[96px]
-                    sm:mt-[72px]
-                    md:mt-[72px]
-                    lg:mt-[72px]
-                    xl:mt-[72px]
-                    2xl:mt-[96px]">
+                    mt-[5%]
+                    ">
                     <div className="flex justify-center">
                         <img
                             src={namethatimg}
                             alt="Image with aspect"
-                            className="w-1/2 object-cover rounded overflow-visible
-                                h-[32px] w-auto
+                            className="object-cover rounded overflow-visible
+                                h-[32px] w-auto transition-all duration-300
                                 phone:h-[32px] phone:w-auto
                                 ipad:h-[64px] ipad:w-auto
                                 sm:h-[64px] sm:w-auto
@@ -154,123 +151,201 @@ function HomePage() {
                 {/* BODY */}
                 <div className="flex h-screen">
                     <div className="flex grow items-center justify-center">
-                        <div className="replaceable-wrapper border-1 border-gray-200 flex flex-col
-                            w-[150px]
-                            small-phone:w-[250px]
-                            phone:w-[350px]
-                            ipad:w-[500px]
-                            sm:w-[550px]
-                            md:w-[600px]
-                            lg:w-[500px]
-                            xl:w-[640px]
-                            2xl:w-[800px]">
+                        <div className="replaceable-wrapper flex flex-col w-2/3
+                            transition-all duration-300
+                            phone:w-[55%]
+                            ipad:w-[60%]
+                            sm:w-[70%]
+                            md:w-[60%]
+                            lg:w-[60%]
+                            xl:w-[55%]
+                            2xl:w-[55%]">
                             {/*SLIDER*/}
-                            <div className="flex justify-center items-center w-[90%]">
+                            <div className="flex justify-center items-center w-[85%]">
                                 <button
                                     onClick={goToPrev}
-                                    className="w-[32px] h-auto
-                                         phone:w-[32px]
-                                         ipad:w-[48px]
-                                         sm:w-[72px]
-                                         md:w-[48px]
-                                         lg:w-[72px]
-                                         xl:w-[72px]
-                                         2xl:w-[86px]">
-                                    <img src={arrowUp}
+                                    className="w-[7vh] h-auto max-w-[5vw]
+                                        phone:w-[9vh]
+                                        ipad:w-[7vh]">
+                                    <img src={isUpClicked ? arrowDownClick : arrowDown}
+                                         onMouseDown={() => setIsUpClicked(true)}
+                                         onMouseUp={() => setIsUpClicked(false)}
+                                         onMouseLeave={() => setIsUpClicked(false)}
                                          alt="Arrow Up"
-                                         className="w-[32px] h-auto
-                                         phone:w-[32px]
-                                         ipad:w-[48px]
-                                         sm:w-[72px]
-                                         md:w-[48px]
-                                         lg:w-[72px]
-                                         xl:w-[72px]
-                                         2xl:w-[86px]" />
+                                         className="rotate-180 w-[7vh] h-auto max-w-[5vw]
+                                        phone:w-[9vh]
+                                        ipad:w-[7vh]" />
                                 </button>
                             </div>
                             <div className="relative">
                                 <Splide
                                     ref={splideRef}
                                     options={splideOptions}
-                                    className="font-montserrat font-black leading-none
-                                        text-[18px] py-[6px]
-                                        phone:text-[18px] phone:py-[6px]
-                                        ipad:text-[24px] ipad:py-[8px]
-                                        sm:text-[28px] sm:py-[10px]
-                                        md:text-[24px] md:py-[0px]
-                                        lg:text-[28px] lg:py-[12px]
-                                        xl:text-[36px] xl:py-[18px]
-                                        2xl:text-[48px] 2xl:py-[18px]"
+                                    className="font-montserrat font-black leading-none py-[1vh]
+                                        text-[length:min(12px,4vw)] whitespace-nowrap
+                                        small-phone:text-[length:min(14px,4vw)]
+                                        phone:text-[length:min(18px,4vw)]
+                                        ipad:text-[length:min(24px,4vw)]
+                                        sm:text-[length:min(24px,4vw)]
+                                        md:text-[length:min(24px,4vw)]
+                                        lg:text-[length:min(28px,4vw)]
+                                        xl:text-[length:min(36px,4vw)]
+                                        2xl:text-[length:min(48px,4vw)]"
                                     aria-label="Vertical Slider"
                                 >
-                                    <SplideSlide>
-                                        <div className="h-full flex items-center justify-center text-white w-[90%]">
-                                            <button onClick={() => setEditionId(1)}>1980s Edition</button>
+                                    <SplideSlide key="1">
+                                        <div className="h-full flex items-center justify-center
+                                            text-white w-[85%] pt-[0.5vh] custom-splide-item">
+                                            <button onClick={() => setEditionId(1)}
+                                                    className={`
+                                                        ${editionId === 1
+                                                        ? 'transition-all duration-0 text-[#FBD11E]'
+                                                        : 'transition-all duration-300 text-white'
+                                                    }`}>1980s Edition</button>
                                         </div>
                                     </SplideSlide>
-                                    <SplideSlide>
-                                        <div className="h-full flex items-center justify-center text-white w-[90%]">
-                                            <button onClick={() => setEditionId(2)}>1990s Edition</button>
+                                    <SplideSlide key="2">
+                                        <div className="h-full flex items-center justify-center
+                                            text-white w-[85%] pt-[0.5vh] custom-splide-item ">
+                                            <button onClick={() => setEditionId(2)}
+                                                    className={`
+                                                        ${editionId === 2
+                                                        ? 'transition-all duration-0 text-[#FBD11E]'
+                                                        : 'transition-all duration-300 text-white'
+                                                    }`}>1990s Edition</button>
                                         </div>
                                     </SplideSlide>
-                                    <SplideSlide>
-                                        <div className="h-full flex items-center justify-center text-white w-[90%]">
-                                            <button onClick={() => setEditionId(3)}>Chistmas Edition </button>
+                                    <SplideSlide key="3">
+                                        <div className="h-full flex items-center justify-center
+                                            text-white w-[85%] pt-[0.5vh] custom-splide-item ">
+                                            <button onClick={() => setEditionId(3)}
+                                                    className={`
+                                                        ${editionId === 3
+                                                        ? 'transition-all duration-0 text-[#FBD11E]'
+                                                        : 'transition-all duration-300 text-white'
+                                                    }`}>Chistmas Edition </button>
                                         </div>
                                     </SplideSlide>
-                                    <SplideSlide>
-                                        <div className="h-full flex items-center justify-center text-white w-[90%]">
-                                            <button onClick={() => setEditionId(3)}>Halloween Edition</button>
+                                    <SplideSlide key="4">
+                                        <div className="h-full flex items-center justify-center
+                                            text-white w-[85%] pt-[0.5vh] custom-splide-item ">
+                                            <button onClick={() => setEditionId(4)}
+                                                    className={`
+                                                        ${editionId === 4
+                                                        ? 'transition-all duration-0 text-[#FBD11E]'
+                                                        : 'transition-all duration-300 text-white'
+                                                    }`}>Halloween Edition</button>
                                         </div>
                                     </SplideSlide>
-                                    <SplideSlide>
-                                        <div className="h-full flex items-center justify-center text-white w-[90%]">
-                                            <button onClick={() => setEditionId(3)}>Tom Cruise Edition</button>
+                                    <SplideSlide key="5">
+                                        <div className="h-full flex items-center justify-center
+                                            text-white w-[85%] pt-[0.5vh] custom-splide-item ">
+                                            <button onClick={() => setEditionId(5)}
+                                                    className={`
+                                                        ${editionId === 5
+                                                        ? 'transition-all duration-0 text-[#FBD11E]'
+                                                        : 'transition-all duration-300 text-white'
+                                                    }`}>Tom Cruise Edition</button>
                                         </div>
                                     </SplideSlide>
-                                    <SplideSlide>
-                                        <div className="h-full flex items-center justify-center text-white w-[90%]">
-                                            <button onClick={() => setEditionId(3)}>TV Show Edition</button>
+                                    <SplideSlide key="6">
+                                        <div className="h-full flex items-center justify-center
+                                            text-white w-[85%] pt-[0.5vh] custom-splide-item ">
+                                            <button onClick={() => setEditionId(6)}
+                                                    className={`
+                                                        ${editionId === 6
+                                                        ? 'transition-all duration-0 text-[#FBD11E]'
+                                                        : 'transition-all duration-300 text-white'
+                                                    }`}>TV Show Edition</button>
                                         </div>
                                     </SplideSlide>
-                                    <SplideSlide>
-                                        <div className="h-full flex items-center justify-center text-white w-[90%]">
-                                            <button onClick={() => setEditionId(1)}>1980s Edition 2</button>
+                                    <SplideSlide key="7">
+                                        <div className="h-full flex items-center justify-center
+                                            text-white w-[85%] pt-[0.5vh] custom-splide-item ">
+                                            <button onClick={() => setEditionId(7)}
+                                                    className={`
+                                                        ${editionId === 7
+                                                        ? 'transition-all duration-0 text-[#FBD11E]'
+                                                        : 'transition-all duration-300 text-white'
+                                                    }`}>1980s Edition 2</button>
                                         </div>
                                     </SplideSlide>
-                                    <SplideSlide>
-                                        <div className="h-full flex items-center justify-center text-white w-[90%]">
-                                            <button onClick={() => setEditionId(2)}>1990s Edition 7</button>
+                                    <SplideSlide key="8">
+                                        <div className="h-full flex items-center justify-center
+                                            text-white w-[85%] pt-[0.5vh] custom-splide-item ">
+                                            <button onClick={() => setEditionId(8)}
+                                                    className={`
+                                                        ${editionId === 8
+                                                        ? 'transition-all duration-0 text-[#FBD11E]'
+                                                        : 'transition-all duration-300 text-white'
+                                                    }`}>1990s Edition 7</button>
                                         </div>
                                     </SplideSlide>
-                                    <SplideSlide>
-                                        <div className="h-full flex items-center justify-center text-white w-[90%]">
-                                            <button onClick={() => setEditionId(3)}>Chistmas Edition 8</button>
+                                    <SplideSlide key="9">
+                                        <div className="h-full flex items-center justify-center
+                                            text-white w-[85%] pt-[0.5vh] custom-splide-item ">
+                                            <button onClick={() => setEditionId(9)}
+                                                    className={`
+                                                        ${editionId === 9
+                                                        ? 'transition-all duration-0 text-[#FBD11E]'
+                                                        : 'transition-all duration-300 text-white'
+                                                    }`}>Chistmas Edition 8</button>
                                         </div>
                                     </SplideSlide>
-                                    <SplideSlide>
-                                        <div className="h-full flex items-center justify-center text-white w-[90%]">
-                                            <button onClick={() => setEditionId(3)}>Halloween Edition 7</button>
+                                    <SplideSlide key="10">
+                                        <div className="h-full flex items-center justify-center
+                                            text-white w-[85%] pt-[0.5vh] custom-splide-item ">
+                                            <button onClick={() => setEditionId(10)}
+                                                    className={`
+                                                        ${editionId === 10
+                                                        ? 'transition-all duration-0 text-[#FBD11E]'
+                                                        : 'transition-all duration-300 text-white'
+                                                    }`}>Halloween Edition 7</button>
                                         </div>
                                     </SplideSlide>
-                                    <SplideSlide>
-                                        <div className="h-full flex items-center justify-center text-white w-[90%]">
-                                            <button onClick={() => setEditionId(3)}>Tom Cruise Edition 6</button>
+                                    <SplideSlide key="11">
+                                        <div className="h-full flex items-center justify-center
+                                            text-white w-[85%] pt-[0.5vh] custom-splide-item ">
+                                            <button onClick={() => setEditionId(11)}
+                                                    className={`
+                                                        ${editionId === 11
+                                                        ? 'transition-all duration-0 text-[#FBD11E]'
+                                                        : 'transition-all duration-300 text-white'
+                                                    }`}>Tom Cruise Edition 6</button>
                                         </div>
                                     </SplideSlide>
-                                    <SplideSlide>
-                                        <div className="h-full flex items-center justify-center text-white w-[90%]">
-                                            <button onClick={() => setEditionId(3)}>TV Show Edition 5</button>
+                                    <SplideSlide key="12">
+                                        <div className="h-full flex items-center justify-center
+                                            text-white w-[85%] pt-[0.5vh] custom-splide-item ">
+                                            <button onClick={() => setEditionId(12)}
+                                                    className={`
+                                                        ${editionId === 12
+                                                        ? 'transition-all duration-0 text-[#FBD11E]'
+                                                        : 'transition-all duration-300 text-white'
+                                                    }`}>TV Show Edition 5</button>
                                         </div>
                                     </SplideSlide>
-                                    <SplideSlide>
-                                        <div className="h-full flex items-center justify-center text-white w-[90%]">
-                                            <button onClick={() => setEditionId(1)}>1980s Edition 4</button>
+                                    <SplideSlide key="13">
+                                        <div className="h-full flex items-center justify-center
+                                            w-[85%] pt-[0.5vh] custom-splide-item ">
+                                            <button onClick={() => setEditionId(13)}
+                                                    className={`
+                                                        ${editionId === 13
+                                                                ? 'transition-all duration-0 text-[#FBD11E]'
+                                                                : 'transition-all duration-300 text-white'
+                                                    }`}>1980s Edition 4</button>
                                         </div>
                                     </SplideSlide>
-                                    <SplideSlide>
-                                        <div className="h-full flex items-center justify-center text-white w-[90%]">
-                                            <button onClick={() => setEditionId(2)}>1990s Edition 3</button>
+                                    <SplideSlide key="14">
+                                        <div className="h-full flex items-center justify-center
+                                            w-[85%] pt-[0.5vh] custom-splide-item ">
+                                            <button onClick={() => setEditionId(14)}
+                                                className={`
+                                                ${editionId === 14
+                                                    ? 'transition-all duration-0 text-[#FBD11E]'
+                                                    : 'transition-all duration-300 text-white'
+                                                }`}>
+                                                1990s Edition 3</button>
                                         </div>
                                     </SplideSlide>
 
@@ -281,25 +356,18 @@ function HomePage() {
                             <div className="flex justify-center items-center w-[90%]">
                                 <button
                                     onClick={goToNext}
-                                    className="w-[32px] h-auto
-                                         phone:w-[32px]
-                                         ipad:w-[48px]
-                                         sm:w-[72px]
-                                         md:w-[48px]
-                                         lg:w-[72px]
-                                         xl:w-[72px]
-                                         2xl:w-[86px]"
+                                    className="w-[7vh] h-auto  max-w-[5vw]
+                                        phone:w-[9vh]
+                                        ipad:w-[7vh]"
                                 >
-                                    <img src={arrowDown}
+                                    <img src={isDownClicked ? arrowDownClick : arrowDown}
                                          alt="Arrow Down"
-                                         className="w-[32px] h-auto
-                                         phone:w-[32px]
-                                         ipad:w-[48px]
-                                         sm:w-[72px]
-                                         md:w-[48px]
-                                         lg:w-[72px]
-                                         xl:w-[72px]
-                                         2xl:w-[86px]" />
+                                         onMouseDown={() => setIsDownClicked(true)}
+                                         onMouseUp={() => setIsDownClicked(false)}
+                                         onMouseLeave={() => setIsDownClicked(false)}
+                                         className="w-[7vh] h-auto max-w-[5vw]
+                                        phone:w-[9vh]
+                                        ipad:w-[7vh]" />
                                 </button>
                             </div>
                             {/*</div>*/}
@@ -308,23 +376,17 @@ function HomePage() {
 
                         </div>
                     </div>
-                    <div className="grow flex items-center justify-center
-                            phone:grow
-                            ipad:grow
-                            sm:grow
-                            md:grow
-                            lg:grow-[1.2]
-                            xl:grow
-                            2xl:grow">
-                        <div className="
-                            phone:w-[198px] phone:h-[198px]
-                            ipad:w-[386px] ipad:h-[386px]
-                            sm:w-[492px] sm:h-[492px]
-                            md:w-[370px] md:h-[370px]
-                            lg:w-[492px] lg:h-[492px]
-                            xl:w-[588px] xl:h-[588px]
-                            2xl:w-[750px] 2xl:h-[750px]
-                            w-[198px] h-[198px] aspect-square"> {/* TODO: add max-h-[60vh] */}
+                    <div className="grow flex items-center justify-center">
+                        <div className="py-[2vh]
+                            {/*phone:w-[25vh] phone:h-[25vh]*/}
+                            {/*ipad:w-[50vh] ipad:h-[50vh]*/}
+                            {/*sm:w-[492px] sm:h-[492px]*/}
+                            {/*md:w-[370px] md:h-[370px]*/}
+                            {/*lg:w-[492px] lg:h-[492px]*/}
+                            {/*xl:w-[588px] xl:h-[588px]*/}
+                            {/*2xl:w-[750px] 2xl:h-[750px]*/}
+                            {/*w-[198px] h-[198px] aspect-square*/}
+                            w-[50vh] h-auto max-w-[30vw]"> {/* TODO: add max-h-[60vh] */}
                             <img
                                 src="https://placehold.co/800x800.jpg?text=800px-Image-1980-Edition"
                                 alt="Edition Image"

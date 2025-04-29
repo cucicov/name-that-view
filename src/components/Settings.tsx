@@ -74,10 +74,10 @@ function Settings({ isOpen, onClose, settings }: SettingsProps) {
             <div ref={settingsRef} className={`fixed top-0 right-0 z-50 shadow-xl bg-[#024D80]
                 transform transition-transform duration-300 ease-in-out
                 ${isOpen ? 'translate-x-0' : 'translate-x-full'}
-                w-2/3 h-screen-dynamic-pop-up mt-[10px] mb-[10px] rounded-l-[16px]
+                w-1/2 h-screen-dynamic-pop-up mt-[10px] mb-[10px] rounded-l-[16px]
                 small-phone:w-[300px]
-                phone:w-[300px] phone:h-[calc(100vh-20px)] phone:mt-[10px] phone:mb-[10px] phone:rounded-l-[16px]
-                ipad:w-[380px] ipad:h-[calc(100vh-40px)] ipad:mt-[20px] ipad:mb-[20px] ipad:rounded-l-[24px]
+                phone:w-[300px] phone:rounded-l-[16px]
+                ipad:w-[380px] ipad:rounded-l-[24px]
                 sm:w-[320px] sm:rounded-l-[32px]
                 md:w-[320px] md:rounded-l-[36px]
                 lg:w-[420px] lg:rounded-l-[42px]
@@ -94,14 +94,14 @@ function Settings({ isOpen, onClose, settings }: SettingsProps) {
                     xl:m-[32px]
                     2xl:m-[36px]">
                     <div className="flex justify-center font-montserrat font-black text-white tracking-wide
-                        pb-[10px] border-b-[2px] border-white border-opacity-30
+                        pb-[10px] border-b-[1px] border-white border-opacity-30
                         text-[16px]
                         phone:text-[18px] phone:pb-[14px]
                         ipad:text-[24px] ipad:pb-[18px]
                         sm:text-[24px] sm:pb-[20px]
                         md:text-[24px] md:pb-[22px]
                         lg:text-[32px] lg:pb-[30px]
-                        xl:text-[32px] xl:pb-[32px]
+                        xl:text-[32px] xl:pb-[32px] xl:border-b-[2px]
                         2xl:text-[48px] 2xl:pb-[36px]">
                         Settings
                     </div>
@@ -124,8 +124,17 @@ function Settings({ isOpen, onClose, settings }: SettingsProps) {
                                 lg:mb-[32px]
                                 xl:mb-[32px]
                                 2xl:mb-[42px]">
-                                <div className="flex grow">
+                                <div className="flex grow flex-col">
                                     Rounds
+                                    <br/>
+                                    <span className="phone:text-[14px] text-[#FBD11E]
+                                        ipad:text-[18px]
+                                        sm:text-[12px]
+                                        md:text-[12px]
+                                        lg:text-[16px]
+                                        xl:text-[18px]
+                                        2xl:text-[26px]">
+                                        (Max = 4 Rounds)</span>
                                 </div>
                                 <div className="bg-[#E4E4E4] flex items-center
                                     rounded-md w-[50px] h-[25px] pl-[5px] pr-[5px]
@@ -150,8 +159,17 @@ function Settings({ isOpen, onClose, settings }: SettingsProps) {
                                 </div>
                             </div>
                             <div className="flex items-center">
-                                <div className="flex grow">
+                                <div className="flex grow flex-col">
                                     Questions Per Round
+                                    <br/>
+                                    <span className="phone:text-[14px] text-[#FBD11E]
+                                        ipad:text-[18px]
+                                        sm:text-[12px]
+                                        md:text-[12px]
+                                        lg:text-[16px]
+                                        xl:text-[18px]
+                                        2xl:text-[26px]">
+                                        (Max = 10 Questions)</span>
                                 </div>
                                 <div className="bg-[#E4E4E4] flex items-center
                                     rounded-md w-[50px] h-[25px] pl-[5px] pr-[5px]

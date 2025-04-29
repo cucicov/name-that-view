@@ -72,3 +72,61 @@ body {
   }
 }
 
+/* Container for pagination */
+.splide__pagination {
+  padding: 10px;
+  gap: 0px;  /* space between dots */
+  z-index: 0 !important;
+}
+
+/* Individual pagination dot */
+.splide__pagination__page {
+  width: 1vw !important;
+  height: 1vw !important;
+  background: #D9D9D9 !important;
+  border: none;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  opacity: 0.7;
+}
+
+/* Active pagination dot */
+.splide__pagination__page.is-active {
+  transform: none !important;  /* make active dot larger */
+  background: #053B60 !important;
+  opacity: 1;
+}
+
+/* Hover state */
+.splide__pagination__page:hover {
+  background: #aaa;
+  opacity: 1;
+}
+
+/* For vertical pagination */
+.splide__pagination--ttb {
+  right: 10px;  /* distance from right edge */
+  display: flex;
+  flex-direction: column;
+}
+
+.splide__pagination--ttb {
+  margin: 0 0 !important;
+  padding: 0 0 !important;
+}
+
+.custom-splide-item:hover {
+  background: #053B60;
+}
+
+.custom-splide-item:active {
+  color: #FBD11E;
+}
+.splide-item-selected {
+  background: #053B60;
+  color: white;
+  /* any other styles you want for selected state */
+}
+
+
+
