@@ -36,7 +36,7 @@ module.exports = {
           height: 'calc(var(--real-vh, 1vh) * 100)',
         },
         '.h-screen-dynamic-pop-up': {
-          height: 'calc((var(--real-vh, 1vh) * 100) - 20px)',
+          height: 'calc((var(--real-vh, 1vh) * 90) - 20px)',
         },
       })
     }),

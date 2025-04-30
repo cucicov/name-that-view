@@ -74,10 +74,11 @@ function Settings({ isOpen, onClose, settings }: SettingsProps) {
             <div ref={settingsRef} className={`fixed top-0 right-0 z-50 shadow-xl bg-[#024D80]
                 transform transition-transform duration-300 ease-in-out
                 ${isOpen ? 'translate-x-0' : 'translate-x-full'}
-                w-1/2 h-screen-dynamic-pop-up mt-[10px] mb-[10px] rounded-l-[16px]
+                w-1/2 h-[calc((var(--real-vh,1vh)*90)-20px)]
+                top-1/2 -translate-y-1/2 rounded-l-[16px]
                 small-phone:w-[300px]
                 phone:w-[300px] phone:rounded-l-[16px]
-                ipad:w-[380px] ipad:rounded-l-[24px]
+                ipad:w-[380px] ipad:rounded-l-[24px] ipad:h-[calc((var(--real-vh,1vh)*100)-20px)]
                 sm:w-[320px] sm:rounded-l-[32px]
                 md:w-[320px] md:rounded-l-[36px]
                 lg:w-[420px] lg:rounded-l-[42px]

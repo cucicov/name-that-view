@@ -30,7 +30,7 @@ function Help({ isOpen, onClose }: HelpDialogProps)  {
             <div className="fixed inset-0 flex items-center justify-center p-4 ">
                 <Dialog.Panel className="rounded-xl p-[2vw]
                                 w-[100%]
-                                phone:w-[95%] phone:max-w-[730px] phone:p-[1vw]
+                                phone:w-[95%] phone:max-w-[730px] phone:p-[2vw]
                                 ipad:w-[90%] ipad:max-w-[890px]
                                 sm:w-[90%] sm:max-w-[890px]
                                 md:w-[90%] md:max-w-[890px]
@@ -78,10 +78,10 @@ function Help({ isOpen, onClose }: HelpDialogProps)  {
                         </button>
                     </div>
 
-                    <div className="bg-white rounded-xl p-4 drop-shadow-[0_4px_4px_rgba(0,0,0,0.55)]
+                    <div className="bg-white rounded-xl p-2 drop-shadow-[0_4px_4px_rgba(0,0,0,0.55)]
                         font-montserrat font-bold text-[#5C5C5C]
-                        text-[length:min(12px,4vw)] px-[10px] pt-[16px]
-                        phone:text-[14px] phone:px-[14px]
+                        text-[length:min(10px,4vw)] pt-[16px]
+                        phone:text-[14px] phone:px-[14px] phone:p-4
                         ipad:text-[20px] ipad:px-[32px]
                         sm:text-[20px] sm:px-[32px]
                         md:text-[20px] md:px-[32px]

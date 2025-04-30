@@ -1,6 +1,7 @@
 import './App.css'
 import HomePage from "./components/HomePage.tsx";
 import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
+import RotateDeviceMessage from "./components/RotateDeviceMessage.tsx";
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -14,9 +15,12 @@ const queryClient = new QueryClient({
 
 function App() {
     return (
-        <QueryClientProvider client={queryClient}>
-            <HomePage />
-        </QueryClientProvider>
+        <>
+            <RotateDeviceMessage/>
+            <QueryClientProvider client={queryClient}>
+                <HomePage/>
+            </QueryClientProvider>
+        </>
     )
 }
 

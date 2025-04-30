@@ -20,14 +20,24 @@ function HomePage() {
     const [isSettingsOpen, setIsSettingsOpen] = useState(false);
     const [isHelpOpen, setIsHelpOpen] = useState(false);
     const [perPageCount, setPerPageCount] = useState(6);
+    const [activePage, setActivePage] = useState(0);
+    const [totalItems, setTotalItems] = useState(14); // TODO: set items length dynamically
+    const [totalPages, setTotalPages] = useState(0);
+
 
 
     useEffect(() => {
         const updatePerPage = () => {
-            if (window.innerHeight <= 400) {  // ipad
+            setPerPageCount(6);
+            setTotalPages(Math.ceil(totalItems / 6));
+            if(window.innerWidth / window.innerHeight > 1.85) {
+                setPerPageCount(5);
+                setTotalPages(Math.ceil(totalItems / 5));
+            }
+            if (window.innerHeight <= 400
+                || (window.innerWidth / window.innerHeight) > 3) {  // ipad
                 setPerPageCount(4);
-            } else {                                 // phone and smaller
-                setPerPageCount(6);
+                setTotalPages(Math.ceil(totalItems / 4));
             }
         };
 
@@ -41,6 +51,39 @@ function HomePage() {
         return () => window.removeEventListener('resize', updatePerPage);
     }, []);
 
+    useEffect(() => {
+        if (splideRef.current) {
+            const splide = splideRef.current.splide;
+
+            splide.on('moved', (newIndex: number) => {
+                setActivePage(Math.floor(newIndex / perPageCount));
+            });
+        }
+    }, [perPageCount]);
+
+    const calculateSplideHeight = () => {
+        const width = window.innerWidth;
+
+        // Base calculation will be 50vh - some pixels
+        if (width >= 2560) {        // 2xl
+            return 'min(calc(40vw - 168px), calc(48vh - 168px))';
+        } else if (width >= 1920) { // xl
+            return 'min(calc(40vw - 128px), calc(48vh - 128px))';
+        } else if (width >= 1440) { // lg
+            return 'min(calc(40vw - 100px), calc(48vh - 100px))';
+        } else if (width >= 1366) { // md
+            return 'min(calc(40vw - 100px), calc(48vh - 100px))';
+        } else if (width >= 1280) { // sm
+            return 'min(calc(40vw - 100px), calc(48vh - 100px))';
+        } else if (width >= 1194) { // ipad
+            return 'min(calc(40vw - 100px), calc(48vh - 100px))';
+        } else if (width >= 852) {  // phone
+            return 'min(calc(40vw - 72px), calc(48vh - 72px))';
+        } else {                    // small-phone
+            return 'min(calc(40vw - 60px), calc(48vh - 60px))';
+        }
+    };
+
 
     const [editionId, setEditionId] = useState(0); //TODO: set edition ID dynamically based on selection in the left list.
 
@@ -51,45 +94,51 @@ function HomePage() {
         direction: 'ttb',
         wheel: true,
         arrows: false, // Disable default arrows
-        pagination: true,
+        pagination: false,
+        type: 'slide',
         perPage: perPageCount,
+        perMove: perPageCount,
         gap: '2px',
-        height: '30vh',
-        breakpoints: {
-            2560: { // 2xl
-                height: '34vh',
-            },
-            1920: { // xl
-                height: '34vh',
-            },
-            1440: { // lg
-                height: '34vh',
-            },
-            1366: { // md
-                height: '34vh',
-            },
-            1280: { // sm
-                height: '34vh',
-            },
-            1194: { // ipad
-                height: '34vh',
-            },
-            852: { // phone
-                height: '30vh',
-            },
-        },
-
+        bound: true,
+        focus: 0,
+        trimSpace: false,
+        height: calculateSplideHeight(),
+        updateOnMove: true,
+        pages: Math.ceil(totalItems / perPageCount),
     };
+
+    useEffect(() => {
+        const handleResize = () => {
+            if (splideRef.current) {
+                splideRef.current.options = {
+                    ...splideRef.current.options,
+                    height: calculateSplideHeight()
+                };
+            }
+        };
+
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
+
     const goToPrev = () => {
         splideRef.current?.go('<');
     };
     const goToNext = () => {
-        splideRef.current?.go('>');
+        if (activePage < totalPages-1) {
+            splideRef.current?.go('>');
+        }
     };
 
     const [isDownClicked, setIsDownClicked] = useState(false);
     const [isUpClicked, setIsUpClicked] = useState(false);
 
+    const handlePaginationClick = (pageIndex: number) => {
+        if (splideRef.current) {
+            splideRef.current.splide.go(pageIndex * perPageCount);
+        }
+    };
 
     const { data: settings, isLoading, error } = useQuery({
         queryKey: ['settings', editionId],
@@ -124,57 +173,70 @@ function HomePage() {
 
     return (
         <>
-            <div className="flex flex-col w-full h-dvh">
+            <div className="flex flex-col w-full h-dvh overflow-hidden">
 
                 {/* HEADER */}
                 <div className="
-                    flex justify-center overflow-visible
-                    mt-[5%]
+                    flex flex-[2] justify-center overflow-visible h-full
                     ">
-                    <div className="flex justify-center">
+                    <div className="flex justify-center items-center">
                         <img
                             src={namethatimg}
                             alt="Image with aspect"
                             className="object-cover rounded overflow-visible
-                                h-[32px] w-auto transition-all duration-300
-                                phone:h-[32px] phone:w-auto
-                                ipad:h-[64px] ipad:w-auto
-                                sm:h-[64px] sm:w-auto
-                                md:h-[78px] md:w-auto
-                                lg:h-[64px] lg:w-auto
-                                xl:h-[78px] xl:w-auto
-                                2xl:h-[100px] 2xl:w-auto"
+                                h-[min(6vw,12vh)] w-auto transition-all duration-300
+                                phone:h-[min(58px,12vh)] phone:w-auto
+                                ipad:h-[min(64px,12vh)] ipad:w-auto
+                                sm:h-[min(78px,12vh)] sm:w-auto
+                                md:h-[min(78px,12vh)] md:w-auto
+                                lg:h-[min(92px,12vh)] lg:w-auto
+                                xl:h-[min(92px,12vh)] xl:w-auto
+                                2xl:h-[min(112px,12vh)] 2xl:w-auto"
                         />
                     </div>
                 </div>
 
                 {/* BODY */}
-                <div className="flex h-screen">
+                <div className="flex flex-[2] h-full items-center justify-center">
                     <div className="flex grow items-center justify-center">
                         <div className="replaceable-wrapper flex flex-col w-2/3
                             transition-all duration-300
-                            phone:w-[55%]
+                            phone:w-[70%]
                             ipad:w-[60%]
                             sm:w-[70%]
                             md:w-[60%]
                             lg:w-[60%]
                             xl:w-[55%]
-                            2xl:w-[55%]">
+                            2xl:w-[55%]
+                            ">
                             {/*SLIDER*/}
                             <div className="flex justify-center items-center w-[85%]">
                                 <button
                                     onClick={goToPrev}
-                                    className="w-[7vh] h-auto max-w-[5vw]
-                                        phone:w-[9vh]
-                                        ipad:w-[7vh]">
+                                    className="small-phone:w-[30px]
+                                            phone:w-[36px]
+                                            ipad:w-[50px]
+                                            sm:w-[50px]
+                                            md:w-[50px]
+                                            lg:w-[50px]
+                                            xl:w-[64px]
+                                            2xl:w-[84px]
+                                            w-[4vw] h-auto min-w-[32px]">
                                     <img src={isUpClicked ? arrowDownClick : arrowDown}
                                          onMouseDown={() => setIsUpClicked(true)}
                                          onMouseUp={() => setIsUpClicked(false)}
                                          onMouseLeave={() => setIsUpClicked(false)}
                                          alt="Arrow Up"
-                                         className="rotate-180 w-[7vh] h-auto max-w-[5vw]
-                                        phone:w-[9vh]
-                                        ipad:w-[7vh]" />
+                                         className=" rotate-180
+                                            small-phone:w-[30px]
+                                            phone:w-[36px]
+                                            ipad:w-[50px]
+                                            sm:w-[50px]
+                                            md:w-[50px]
+                                            lg:w-[50px]
+                                            xl:w-[64px]
+                                            2xl:w-[84px]
+                                            w-[4vw] h-auto min-w-[32px]" />
                                 </button>
                             </div>
                             <div className="relative">
@@ -348,32 +410,51 @@ function HomePage() {
                                                 1990s Edition 3</button>
                                         </div>
                                     </SplideSlide>
-
                                 </Splide>
                             </div>
                             {/* Custom Navigation Buttons */}
                             {/*<div className="absolute left-4 top-1/2 -translate-y-1/2 flex flex-col gap-4">*/}
-                            <div className="flex justify-center items-center w-[90%]">
+                            <div className="flex justify-center items-center w-[85%]">
                                 <button
                                     onClick={goToNext}
-                                    className="w-[7vh] h-auto  max-w-[5vw]
-                                        phone:w-[9vh]
-                                        ipad:w-[7vh]"
+                                    className="small-phone:w-[30px]
+                                        phone:w-[36px]
+                                        ipad:w-[50px]
+                                        sm:w-[50px]
+                                        md:w-[50px]
+                                        lg:w-[50px]
+                                        xl:w-[64px]
+                                        2xl:w-[84px]
+                                        w-[4vw] h-auto min-w-[32px]"
                                 >
                                     <img src={isDownClicked ? arrowDownClick : arrowDown}
                                          alt="Arrow Down"
                                          onMouseDown={() => setIsDownClicked(true)}
                                          onMouseUp={() => setIsDownClicked(false)}
                                          onMouseLeave={() => setIsDownClicked(false)}
-                                         className="w-[7vh] h-auto max-w-[5vw]
-                                        phone:w-[9vh]
-                                        ipad:w-[7vh]" />
+                                         className="small-phone:w-[30px]
+                                            phone:w-[36px]
+                                            ipad:w-[50px]
+                                            sm:w-[50px]
+                                            md:w-[50px]
+                                            lg:w-[50px]
+                                            xl:w-[64px]
+                                            2xl:w-[84px]
+                                            w-[4vw] h-auto min-w-[32px]" />
                                 </button>
                             </div>
                             {/*</div>*/}
+                        </div>
 
-
-
+                        <div className="splide__pagination_custom flex flex-col justify-center items-center">
+                            {Array.from({ length: totalPages }).map((_, index) => (
+                                <button
+                                    key={index}
+                                    className={`splide__pagination__page ${index === activePage ? 'is-active' : ''}`}
+                                    onClick={() => handlePaginationClick(index)}
+                                    data-page={index}
+                                />
+                            ))}
                         </div>
                     </div>
                     <div className="grow flex items-center justify-center">
@@ -385,8 +466,8 @@ function HomePage() {
                             {/*lg:w-[492px] lg:h-[492px]*/}
                             {/*xl:w-[588px] xl:h-[588px]*/}
                             {/*2xl:w-[750px] 2xl:h-[750px]*/}
-                            {/*w-[198px] h-[198px] aspect-square*/}
-                            w-[50vh] h-auto max-w-[30vw]"> {/* TODO: add max-h-[60vh] */}
+                            {/*w-[198px] h-[198px]*/}
+                            w-[50vh] h-auto max-w-[40vw]"> {/* TODO: add max-h-[60vh] */}
                             <img
                                 src="https://placehold.co/800x800.jpg?text=800px-Image-1980-Edition"
                                 alt="Edition Image"
@@ -405,8 +486,8 @@ function HomePage() {
                 </div>
 
                 {/* FOOTER */}
-                <div className="flex justify-center items-center
-                    pb-[32px]
+                <div className="flex flex-1 justify-center items-end
+                    pb-[5vh]
                     phone:pb-[32px]
                     ipad:pb-[64px]
                     sm:pb-[72x]
@@ -427,6 +508,7 @@ function HomePage() {
                         2xl:pl-[96px]">
                         <div className="gradient-btn-util flex justify-center items-center
                             rounded-[6px]
+                            small-phone:w-[30px] small-phone:h-[30px] small-phone:rounded-[6px]
                             phone:w-[36px] phone:h-[36px] phone:rounded-[6px]
                             ipad:w-[50px] ipad:h-[50px] ipad:rounded-[8px]
                             sm:w-[50px] sm:h-[50px] sm:rounded-[8px]
@@ -434,13 +516,14 @@ function HomePage() {
                             lg:w-[50px] lg:h-[50px] lg:rounded-[9px]
                             xl:w-[64px] xl:h-[64px] xl:rounded-[12px]
                             2xl:w-[84px] 2xl:h-[84px] 2xl:rounded-[16px]
-                            w-[36px] h-[36px] max-h-[75vh] aspect-square">
+                            w-[4vw] h-[4vw] min-h-[32px] min-w-[32px] aspect-square">
                             <button className="p-0" onClick={() => setIsHelpOpen(true)}>
                                 <img
                                     src={helpimg}
                                     alt="Image with aspect"
                                     className="h-full object-cover rounded
-                                    w-[14px]
+                                    w-[1.5vw] min-w-[10px]
+                                    small-phone:w-[10px]
                                     phone:w-[14px]
                                     ipad:w-[19px]
                                     sm:w-[19px]
@@ -496,6 +579,7 @@ function HomePage() {
                         2xl:pr-[96px]">
                         <div className="gradient-btn-util flex justify-center items-center
                             rounded-[6px]
+                            small-phone:w-[30px] small-phone:h-[30px] small-phone:rounded-[6px]
                             phone:w-[36px] phone:h-[36px] phone:rounded-[6px]
                             ipad:w-[50px] ipad:h-[50px] ipad:rounded-[8px]
                             sm:w-[50px] sm:h-[50px] sm:rounded-[8px]
@@ -503,13 +587,14 @@ function HomePage() {
                             lg:w-[50px] lg:h-[50px] lg:rounded-[9px]
                             xl:w-[64px] xl:h-[64px] xl:rounded-[12px]
                             2xl:w-[84px] 2xl:h-[84px] 2xl:rounded-[16px]
-                            w-[36px] h-[36px] max-h-[75vh] aspect-square">
+                            w-[4vw] h-[4vw] min-h-[32px] min-w-[32px] aspect-square">
                             <button className="p-0" onClick={toggleSettings}>
                                 <img
                                     src={settingsimg}
                                     alt="Image with aspect"
                                     className="h-full object-cover rounded
-                                        w-[20px]
+                                        w-[2.8vw] min-w-[18px]
+                                        small-phone:w-[18px]
                                         phone:w-[24px]
                                         ipad:w-[33px]
                                         sm:w-[33px]
