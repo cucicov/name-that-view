@@ -1,8 +1,8 @@
 import namethatimg from "../img/namethat.png";
 import helpimg from "../img/help.png";
 import settingsimg from "../img/settings.png";
-import arrowDownClick from "../img/arrow-down-click.png";
-import arrowDown from "../img/arrow-down.png";
+import arrowDownClick from "../img/arrow-clicked.svg";
+import arrowDown from "../img/arrow.svg";
 import Settings from "./Settings.tsx";
 import {useEffect, useState} from "react";
 import { useQuery } from '@tanstack/react-query';
@@ -14,6 +14,7 @@ import { Splide, SplideSlide } from '@splidejs/react-splide';
 // @ts-ignore
 import '@splidejs/react-splide/css';
 import { useRef } from 'react';
+import {useNavigate} from "react-router-dom";
 
 
 function HomePage() {
@@ -24,7 +25,11 @@ function HomePage() {
     const [totalItems, setTotalItems] = useState(14); // TODO: set items length dynamically
     const [totalPages, setTotalPages] = useState(0);
 
+    const navigate = useNavigate();
 
+    const handleStartGame = () => {
+        navigate('/question'); // Navigate to the question route
+    };
 
     useEffect(() => {
         const updatePerPage = () => {
@@ -553,7 +558,8 @@ function HomePage() {
                                 md:rounded-[8px] md:px-[24px] md:py-[6px]
                                 lg:rounded-[8px] lg:px-[24px] lg:py-[6px]
                                 xl:rounded-[8px] xl:px-[24px] xl:py-[6px]
-                                2xl:rounded-[8px] 2xl:px-[24px] 2xl:py-[6px]">
+                                2xl:rounded-[8px] 2xl:px-[24px] 2xl:py-[6px]"
+                                onClick={handleStartGame}>
                                 <div className="relative z-10 font-montserrat font-black
                                       phone:text-[18px]
                                       ipad:text-[24px]
